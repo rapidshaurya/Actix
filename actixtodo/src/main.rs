@@ -67,6 +67,20 @@ async fn resetall(req: HttpRequest) -> Result<String> {
     Ok(format!("RESET ALL...."))
 }
 
+#[get("/user/delete/{username}/{password}/")]
+async fn delete(req: HttpRequest) -> Result<String>{
+    let username: String = req.match_info().get("username").unwrap().parse().unwrap();
+    let password: String = req.match_info().query("password").parse().unwrap();
+    check(&username,&password);
+    let  mut todo = Todo::new().expect("Initialisation of db failed");
+    todo.delete(username.trim().to_string());
+    match todo.save() {
+        Ok(_) => Ok(format!("File Deleted")),
+        Err(why) => Ok(format!("An error occurd {}", why)),
+    }
+    
+}
+
 pub fn check(username: &str, password: &str) {
     let check = format!("{}\t{}", username.trim(), password.trim());
 
@@ -94,6 +108,7 @@ async fn main() -> std::io::Result<()> {
     .service(complete)
     .service(display)
     .service(resetall)
+    .service(delete)
      )
         .bind(("127.0.0.1", 8080))?
         .run()

@@ -78,14 +78,19 @@ impl Todo {
         }
     }
     pub fn display(self,username: String) ->String{
-        let mut a:String = "".to_string();
+        let mut ans:String = "".to_string();
         for (key1, val1) in self.map.iter() {
             if key1.to_string() == username.trim() {
                 println!("{:#?}", val1);
-                a.push_str(&format!("{:#?}", val1));
+                ans.push_str(&format!("{:#?}", val1));
             }
         }
-        a
+        ans
+    }
+    pub fn delete(&mut self, username: String) {
+        self.map.remove_entry(username.trim());
+        let _x = fs::remove_file("user1.json");
+        println!("{:?}",self.map);
     }
 }
 
