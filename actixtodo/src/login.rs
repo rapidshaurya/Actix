@@ -25,8 +25,9 @@ impl Login {
          for _line in contents.lines() {
                 key=key+1;
                 if _line.contains(&username)  {
-                    print!("User already exit\n please user other username\n");
-                    process::exit(1);
+                    if _line.len()== username.len() {print!("User already exit\n please user other username\n");
+                    process::exit(1);}
+                    
                 }
          }
          let insert = format!("{}\t{}", username.trim(), password.trim());

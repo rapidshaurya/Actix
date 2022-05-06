@@ -89,8 +89,11 @@ pub fn check(username: &str, password: &str) {
          let mut count=1; 
          for line in contents.lines() {
                 if line.contains(&check.trim()) {
-                    f=1;
-                    break;
+                    if line.len()== check.len() {
+                        f=1;
+                        break;
+                    }
+                    
                 }
                 count=count+1;
          }
